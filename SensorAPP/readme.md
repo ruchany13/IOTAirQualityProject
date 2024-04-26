@@ -1,1 +1,1 @@
-
+Projenin ilk kısmında DHT11 sensörleri ısı ve sıcaklık tespiti için kullanılmıştır. DHT11 sensörlerini Raspberry Pi 4 cihazından kullanabilmek amacıyla sensor uygulaması yazıldı. Bu dizin içerisinde Python ile yazılmış sade hali ve konteynerlaştırılmış halini içermektedir.
