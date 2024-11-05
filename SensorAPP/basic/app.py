@@ -2,8 +2,8 @@ import time
 import board
 import adafruit_dht
 
-
-sensor = adafruit_dht.DHT11(board.D4)
+#GPIO 10 pini (s yazısının yanındaki pin) -> 5v -> grd
+sensor = adafruit_dht.DHT11(board.D10)
 
 while True:
     try:
