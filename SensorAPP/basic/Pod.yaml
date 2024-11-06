@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sensor-data-logger
+spec:
+  containers:
+  - name: sensor-data-logger
+    image: localhost:5000/sensor-data-logger:1.0
+    securityContext:
+      privileged: true
+

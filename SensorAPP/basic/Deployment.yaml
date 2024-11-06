@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sensor-data-logger-deploy
+  labels:
+    app: sensor-data-logger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sensor-data-logger
+  template:
+    metadata:
+      labels:
+        app: sensor-data-logger
+    spec:
+      containers:
+      - name: sensor-data-collector
+        image: localhost:5000/sensor-data-logger:1.0
+        securityContext:
+          privileged: true
