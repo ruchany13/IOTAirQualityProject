@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
   - name: sensor-data-logger
-    image: localhost:5000/sensor-data-logger:1.0
+    image: rchyln/sensor-data-logger:1.0
     securityContext:
       privileged: true
 
