@@ -1,5 +1,3 @@
-schedule
+influxdb-client
 adafruit-circuitpython-dht
 RPI.GPIO
-influxdb-client
-Adafruit-Blinka

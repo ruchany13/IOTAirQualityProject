@@ -1,9 +1,6 @@
-import time
-import board
+import time, os, board
 import adafruit_dht
-
-import influxdb_client, os
-from influxdb_client import InfluxDBClient, Point, WritePrecision
+import influxdb_client
 from influxdb_client.client.write_api import SYNCHRONOUS
 
 
