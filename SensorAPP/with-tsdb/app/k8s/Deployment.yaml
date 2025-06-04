@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sensor-data-logger-deployment
+  labels:
+    app: sensor-data-logger
+spec:
+# replica must to 1 because, there is one GPIO settings
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sensor-data-logger
+  template:
+    metadata:
+      labels:
+        app: sensor-data-logger
+    spec:
+      containers:
+      - name: sensor-data-collector
+        image: rchyln/sensor-data-logger:1.0-influxdb
+        securityContext:
+          privileged: true
+      env:
+        - name: DB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: influxdb-secret
+              key: token
+      envFrom:
+        - configMapRef:
+            name: influxdb-cm
