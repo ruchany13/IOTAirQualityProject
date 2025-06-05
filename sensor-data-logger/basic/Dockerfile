@@ -8,7 +8,6 @@ COPY requirements.txt .
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         build-essential \
-        python3-dev \
         libffi-dev \
         libgpiod2 && \
     # Clean unnecesearry repos
