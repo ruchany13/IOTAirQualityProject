@@ -71,3 +71,11 @@ jobs:
       - name: Change Deployment Image Tag
         run: |          
           yq e '.spec.template.spec.containers[0].image = "'$IMAGE_NAME':'$IMAGE_TAG'"' -i k8s-infra/sensor-data-logger/deployment.yaml
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add dev/django/deployment.yaml
+          git commit -m "Update image tag "
+          git push
