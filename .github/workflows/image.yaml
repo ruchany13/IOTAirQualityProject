@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest-arm
+    runs-on: ubuntu-24.04-arm
 
     steps:
           
@@ -24,7 +24,7 @@ jobs:
     # Pythnon unit tests will be added here
 
   build:
-    runs-on: ubuntu-latest-arm64
+    runs-on: ubuntu-24.04-arm
 
     env:
       IMAGE_NAME: registry.ruchan.dev/iot/prod/sensor-data-logger
@@ -56,7 +56,7 @@ jobs:
 
   update-infra:
     needs: build
-    runs-on: ubuntu-latest-arm
+    runs-on: ubuntu-24.04-arm
 
     env:
       IMAGE_NAME: registry.ruchan.dev/iot/prod/sensor-data-logger
