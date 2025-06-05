@@ -40,7 +40,7 @@ jobs:
           
       - name: Build Docker Image
         run: |
-          docker build -f sensor-data-logger/basic/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG 
+          docker build -f sensor-data-logger/basic/Dockerfile -t a:1 sensor-data-logger/basic 
 
       - name: Push Docker Image
         run: |
