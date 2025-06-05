@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sensor-data-logger-deploy
+  namespace: app-prod
   labels:
     app: sensor-data-logger
 spec:
@@ -17,5 +18,11 @@ spec:
       containers:
         - name: sensor-data-collector
           image: registry.ruchan.dev/iot/prod/sensor-data-logger:250605-27e2836
+          envFrom:
+            - secretRef:
+                name: postgres-secret
           securityContext:
             privileged: true
+      imagePullSecrets:
+        - name: registry-credentials
+
