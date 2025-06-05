@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_NAME: rchyln/iot/prod/sensor-data-logger
+      IMAGE_NAME: rchyln/iot/sensor-data-logger
 
     steps:
           
