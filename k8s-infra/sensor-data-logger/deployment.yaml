@@ -18,11 +18,12 @@ spec:
       containers:
         - name: sensor-data-collector
           image: registry.ruchan.dev/iot/prod/sensor-data-logger:250605-27e2836
+          securityContext:
+            privileged: true
+
           envFrom:
             - secretRef:
               name: postgres-secret
       imagePullSecrets:
         - name: registry-credentials
 
-          securityContext:
-            privileged: true
