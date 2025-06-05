@@ -15,7 +15,7 @@ spec:
         app: sensor-data-logger
     spec:
       containers:
-      - name: sensor-data-collector
-        image: rchyln/sensor-data-logger:1.0
-        securityContext:
-          privileged: true
+        - name: sensor-data-collector
+          image: registry.ruchan.dev/iot/prod/sensor-data-logger:250605-27e2836
+          securityContext:
+            privileged: true
