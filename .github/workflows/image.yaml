@@ -5,14 +5,16 @@ on:
     branches:
       - main
 
-# given github push permissions for github actions
   workflow_dispatch:
+
+# given github push permissions for github actions
+
 permissions:
   contents: write 
 
 jobs:
   test:
-    runs-on: ubuntu-latest-arm64
+    runs-on: ubuntu-latest-arm
 
     steps:
           
@@ -54,7 +56,7 @@ jobs:
 
   update-infra:
     needs: build
-    runs-on: ubuntu-latest-arm64
+    runs-on: ubuntu-latest-arm
 
     env:
       IMAGE_NAME: registry.ruchan.dev/iot/prod/sensor-data-logger
