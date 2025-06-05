@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_NAME: rchyln/iot/sensor-data-logger
+      IMAGE_NAME: rchyln/iot/prod/sensor-data-logger
 
     steps:
           
@@ -44,7 +44,7 @@ jobs:
 
       - name: Push Docker Image
         run: |
-          docker push $IMAGE_NAME:$IMAGE_TAG
+          docker push rchyln/iot/prod/sensor-data-logger:$IMAGE_TAG
 
   update-infra:
     needs: build
