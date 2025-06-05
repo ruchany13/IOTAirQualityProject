@@ -40,11 +40,11 @@ jobs:
           
       - name: Build Docker Image
         run: |
-          docker build -f sensor-data-logger/basic/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG sensor-data-logger/basic 
+          docker build -f sensor-data-logger/basic/Dockerfile -t rchyln/iot/prod/sensor-data-logger:$IMAGE_TAG sensor-data-logger/basic 
 
       - name: Push Docker Image
         run: |
-          docker push $IMAGE_NAME:$IMAGE_TAG
+          docker push rchyln/iot/prod/sensor-data-logger:$IMAGE_TAG
 
   update-infra:
     needs: build
