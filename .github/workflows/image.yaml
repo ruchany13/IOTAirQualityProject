@@ -6,7 +6,7 @@ on:
       - main
 
 # given github push permissions for github actions
-
+  workflow_dispatch:
 permissions:
   contents: write 
 
