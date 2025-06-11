@@ -99,7 +99,6 @@ def send_api(humidity, temperature):
     "X-API-Key": SECRET_KEY
     }
     
-    
 
     print(f"Aşağıdaki veri sunucuya gönderiliyor: {payload}")
 
