@@ -111,9 +111,9 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          sleep 30
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          git pull
           git add k8s-infra/IOT/sensor-data-logger/
 
           if git diff --staged --quiet; then
@@ -153,7 +153,8 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add k8s-infra/IOT/sensor-data-sender/
-
+          git pull
+          
           if git diff --staged --quiet; then
             echo "No changes to commit, skipping push."
           else
