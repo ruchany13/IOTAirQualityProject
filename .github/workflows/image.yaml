@@ -112,6 +112,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          git pull
           git add k8s-infra/IOT/sensor-data-logger/
 
           if git diff --staged --quiet; then
@@ -150,6 +151,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          git pull
           git add k8s-infra/IOT/sensor-data-sender/
 
           if git diff --staged --quiet; then
