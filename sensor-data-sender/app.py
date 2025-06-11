@@ -23,7 +23,7 @@ def prepare_database():
                         id serial PRIMARY KEY,
                         temperature_c INTEGER NOT NULL ,
                         humidity SMALLINT NOT NULL,
-                        time TIMESTAMP NOT NULL)
+                        time TIMESTAMPTZ NOT NULL)
                         """)
                 
             print("Veritabanı bağlantısı başarılı, tablosu hazır!")
@@ -34,18 +34,33 @@ def prepare_database():
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
 
+# Calculate temperature and humditty data for 5 minutes
 def get_data_db():
     try:
         conninfo = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
         with psycopg.connect(conninfo) as conn:            
             with conn.cursor() as cur:
-                cur.execute("SELECT * FROM data")
-                print(cur.fetchall())
+                
+                cur.execute("SELECT * FROM data WHERE time >= NOW() - INTERVAL '5 minutes' ORDER BY time DESC")
+                
+                
+                last_five_minutes_data=cur.fetchall()
+                print(type(last_five_minutes_data))
+                humidity=0
+                temperature_c=0
+                
+                for record in last_five_minutes_data:
+                    print(f"ID: {record[0]}, Sıcaklık: {record[1]}°C, Nem: {record[2]}%, Zaman: {record[3].strftime('%H:%M:%S')}")
+
+                humidity += record[1]
+                temperature_c += record[2]
+
 
     except psycopg.OperationalError as e:
         print(f"Bağlantı hatası: {e}")
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
+
 
 prepare_database()
 get_data_db()
