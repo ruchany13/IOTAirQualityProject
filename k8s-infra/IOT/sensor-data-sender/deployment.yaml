@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sensor-data-sender-deploy
+  namespace: app-prod
+  labels:
+    app: sensor-data-sender
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sensor-data-sender
+  template:
+    metadata:
+      labels:
+        app: sensor-data-sender
+    spec:
+      containers:
+        - name: sensor-data-sender
+          image: registry.ruchan.dev/iot/prod/sensor-data-sender:250611-8835078
+          envFrom:
+            - secretRef:
+                name: api-secret
+            - configMapRef:
+                name: api-cm
+          securityContext:
+            privileged: true
+      imagePullSecrets:
+        - name: registry-credentials

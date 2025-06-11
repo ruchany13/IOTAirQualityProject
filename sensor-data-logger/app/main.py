@@ -3,7 +3,7 @@ import board
 import adafruit_dht
 import psycopg
 import datetime
-import os
+import os, sys
 
 #GPIO 10 pini (s yazısının yanındaki pin) -> 5v -> grd
 sensor = adafruit_dht.DHT11(board.D10)
@@ -27,7 +27,7 @@ def prepare_database():
                         id serial PRIMARY KEY,
                         temperature_c INTEGER NOT NULL ,
                         humidity SMALLINT NOT NULL,
-                        time TIMESTAMP NOT NULL)
+                        time TIMESTAMPTZ NOT NULL)
                         """)
                 
             print("Veritabanı bağlantısı başarılı, tablosu hazır!")
@@ -35,8 +35,10 @@ def prepare_database():
 
     except psycopg.OperationalError as e:
         print(f"Bağlantı hatası: {e}")
+        sys.exit()
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
+        sys.exit()
 
 def send_data_db(temperature, humidity, time):
     try:
@@ -48,8 +50,10 @@ def send_data_db(temperature, humidity, time):
 
     except psycopg.OperationalError as e:
         print(f"Bağlantı hatası: {e}")
+        sys.exit()
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
+        sys.exit()
 
 prepare_database()
 
@@ -57,16 +61,22 @@ while True:
     try:
         temperature_c = sensor.temperature
         #temperature_f = temperature_c * (9 / 5) + 32
+        
         humidity = sensor.humidity
-        x = datetime.datetime.now()
+        
+        x = datetime.datetime.now(datetime.timezone.utc)
+        #x = datetime.datetime.now()
+
         current_time=x.strftime("%Y-%m-%d %H:%M:%S")
         print(current_time, "Sıcaklık={0:0.1f}ºC, Nem={1:0.1f}%".format(temperature_c, humidity))
         send_data_db(temperature_c, humidity, current_time)
+
     except RuntimeError as error:
         # Errors happen fairly often, DHT's are hard to read, just keep going
         print(error.args[0])
         time.sleep(2.0)
         continue
+    
     except Exception as error:
         sensor.exit()
         raise error

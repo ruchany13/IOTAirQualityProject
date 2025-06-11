@@ -1,0 +1,1 @@
+Sensor data sender applicaton, collect data of per 5 minutes and send to Azure IOT HUB
