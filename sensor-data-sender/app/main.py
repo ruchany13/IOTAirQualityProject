@@ -1,6 +1,6 @@
 import time
 import psycopg
-import os
+import os, sys
 import schedule
 import requests
 
@@ -31,8 +31,10 @@ def prepare_database():
 
     except psycopg.OperationalError as e:
         print(f"Bağlantı hatası: {e}")
+        sys.exit()
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
+        sys.exit()
     
 
 # Calculate temperature and humditty data for 5 minutes
@@ -56,8 +58,10 @@ def get_data_db():
 
     except psycopg.OperationalError as e:
         print(f"Bağlantı hatası: {e}")
+        sys.exit()
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
+        sys.exit()
     
     return last_five_minutes_data, humidity_all, temperature_c_all
 

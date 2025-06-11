@@ -3,7 +3,7 @@ import board
 import adafruit_dht
 import psycopg
 import datetime
-import os
+import os, sys
 
 #GPIO 10 pini (s yazısının yanındaki pin) -> 5v -> grd
 sensor = adafruit_dht.DHT11(board.D10)
@@ -35,8 +35,10 @@ def prepare_database():
 
     except psycopg.OperationalError as e:
         print(f"Bağlantı hatası: {e}")
+        sys.exit()
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
+        sys.exit()
 
 def send_data_db(temperature, humidity, time):
     try:
@@ -48,8 +50,10 @@ def send_data_db(temperature, humidity, time):
 
     except psycopg.OperationalError as e:
         print(f"Bağlantı hatası: {e}")
+        sys.exit()
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
+        sys.exit()
 
 prepare_database()
 
