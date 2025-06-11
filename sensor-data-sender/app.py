@@ -2,6 +2,7 @@ import time
 import psycopg
 import os
 import schedule
+import requests
 
 db_name = os.getenv("POSTGRES_DB")
 db_user = os.getenv("POSTGRES_USER")
@@ -40,14 +41,14 @@ def get_data_db():
         with psycopg.connect(conninfo) as conn:            
             with conn.cursor() as cur:
                 
-                cur.execute("SELECT * FROM data WHERE time >= NOW() - INTERVAL '5 minutes' ORDER BY time DESC")
+                cur.execute("SELECT * FROM data WHERE time >= NOW() - INTERVAL '5 minutes'")
                 
                 last_five_minutes_data=cur.fetchall()
                 humidity_all=0
                 temperature_c_all=0
                 
                 for record in last_five_minutes_data:
-                    #print(f"ID: {record[0]}, Sıcaklık: {record[1]}°C, Nem: {record[2]}%, Zaman: {record[3].strftime('%H:%M:%S')}")
+                    print(f"ID: {record[0]}, Sıcaklık: {record[1]}°C, Nem: {record[2]}%, Zaman: {record[3].strftime('%H:%M:%S')}")
 
                     humidity_all += record[1]
                     temperature_c_all += record[2]
@@ -65,27 +66,61 @@ def calculate_data(last_five_minutes_data, humidity_all, temperature_c_all):
     first_id = last_five_minutes_data[0][0]
     last_id = last_five_minutes_data[-1][0]
     total_id = last_id - first_id
-
-    average_temperature_c = temperature_c_all / total_id
-    average_humidity = humidity_all / total_id
     
+    average_temperature_c = "{:.2f}".format(temperature_c_all / total_id)
+    average_humidity = "{:.2f}".format(humidity_all / total_id)
+    
+
     print("Ortalama nem:",average_humidity)
     print("Ortalama sıcaklık:", average_temperature_c)
 
+    return average_humidity, average_temperature_c
 
-    
+
+def send_api(humidity, temperature):
+
+    # 1. Veri göndereceğimiz endpoint'i tanımla
+    API_URL = "http://127.0.0.1:80/receive_data"
+
+    payload = {
+        "temperature": temperature,
+        "humidity": humidity
+    }
+
+    print(f"Aşağıdaki veri sunucuya gönderiliyor: {payload}")
+
+    try:
+        # 3. POST isteği gönder. 'json=' parametresi, sözlüğü otomatik olarak JSON'a çevirir.
+        response = requests.post(API_URL, json=payload)
+        
+        # 4. Yanıtın başarılı olup olmadığını kontrol et
+        if response.status_code == 200:
+            # 5. Sunucunun yanıtını (bizim gönderdiğimiz verinin yansıması) al
+            data = response.json()
+            print("\nSunucu bağlantısı başarılı")
+            print(data)
+            
+        else:
+            print(f"Hata! Sunucudan yanıt alınamadı. Durum Kodu: {response.status_code}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Bağlantı hatası: {e}")
+
+
 def main():
     last_five_minutes_data, humidity_all, temperature_c_all = get_data_db()
-    calculate_data(last_five_minutes_data, humidity_all, temperature_c_all)
-
+    temperature, humidity = calculate_data(last_five_minutes_data, humidity_all, temperature_c_all)
+    send_api(temperature, humidity)
 
 if __name__=="__main__":
     prepare_database()
+    main()
 
     # Every five minutes in a hour will trigger job. Because of data continuity.
-    for minute in ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"]:
+    """for minute in ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"]:
         schedule.every().hour.at(f":{minute}").do(main)
     
     while True:
         schedule.run_pending()
         time.sleep(1)
+    """
