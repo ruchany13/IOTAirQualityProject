@@ -48,7 +48,7 @@ jobs:
           
       - name: Build Docker Image
         run: |
-          docker build -f sensor-data-logger/basic/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG sensor-data-logger/basic 
+          docker build -f sensor-data-logger/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG sensor-data-logger
 
       - name: Push Docker Image
         run: |
@@ -77,7 +77,7 @@ jobs:
       
       - name: Change Deployment Image Tag
         run: |          
-          yq e '.spec.template.spec.containers[0].image = "'$IMAGE_NAME':'$IMAGE_TAG'"' -i k8s-infra/sensor-data-logger/deployment.yaml
+          yq e '.spec.template.spec.containers[0].image = "'$IMAGE_NAME':'$IMAGE_TAG'"' -i k8s-infra/IOT/sensor-data-logger/deployment.yaml
 
       - name: Commit and push changes
         run: |

@@ -127,10 +127,10 @@ if __name__=="__main__":
     main()
 
     # Every five minutes in a hour will trigger job. Because of data continuity.
-    """for minute in ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"]:
+    for minute in ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"]:
         schedule.every().hour.at(f":{minute}").do(main)
     
     while True:
         schedule.run_pending()
         time.sleep(1)
-    """
+    
