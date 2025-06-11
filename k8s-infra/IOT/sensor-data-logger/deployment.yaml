@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: sensor-data-collector
-          image: registry.ruchan.dev/iot/prod/sensor-data-logger:250611-7e66e14
+          image: registry.ruchan.dev/iot/prod/sensor-data-logger:250611-bc73ab7
           envFrom:
             - secretRef:
                 name: postgres-secret
