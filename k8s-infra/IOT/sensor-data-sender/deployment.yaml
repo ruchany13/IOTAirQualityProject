@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: sensor-data-sender
-          image: registry.ruchan.dev/iot/prod/sensor-data-sender:250611-c6e1118
+          image: registry.ruchan.dev/iot/prod/sensor-data-sender:250611-5e37587
           envFrom:
             - secretRef:
                 name: api-secret
