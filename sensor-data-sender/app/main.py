@@ -84,8 +84,10 @@ def calculate_data(last_five_minutes_data, humidity_all, temperature_c_all):
 
 def send_api(humidity, temperature):
 
-    # 1. Veri göndereceğimiz endpoint'i tanımla
-    API_URL = "http://127.0.0.1:8000/receive_data"
+    BASE_URL = os.getenv("API_URL")
+    ENDPOINT = "/receive_data"
+
+    API_URL = f"{BASE_URL}{ENDPOINT}"
     SECRET_KEY = os.getenv("SECRET_API_KEY")
 
     payload = {

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-cm
+  namespace: app-prod
+data:
+  API_URL: https://api.ruchan.dev
