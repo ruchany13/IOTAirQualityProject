@@ -17,7 +17,8 @@ RUN apt-get update && \
 # used  --break-system-packages because there is conflict between apt and pip
 RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
 
-COPY app.py .
+COPY app/* .
+
 RUN chmod u+x ./*.py
 
-CMD ["python3" , "-u" ,"app.py"]
+CMD ["python3" , "-u" ,"main.py"]

@@ -33,6 +33,7 @@ def prepare_database():
         print(f"Bağlantı hatası: {e}")
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
+    
 
 # Calculate temperature and humditty data for 5 minutes
 def get_data_db():
@@ -80,18 +81,23 @@ def calculate_data(last_five_minutes_data, humidity_all, temperature_c_all):
 def send_api(humidity, temperature):
 
     # 1. Veri göndereceğimiz endpoint'i tanımla
-    API_URL = "http://127.0.0.1:80/receive_data"
+    API_URL = "http://127.0.0.1:8000/receive_data"
+    SECRET_KEY = os.getenv("SECRET_API_KEY")
 
     payload = {
         "temperature": temperature,
         "humidity": humidity
     }
 
+    headers = {
+    "X-API-Key": SECRET_KEY
+    }
+
     print(f"Aşağıdaki veri sunucuya gönderiliyor: {payload}")
 
     try:
         # 3. POST isteği gönder. 'json=' parametresi, sözlüğü otomatik olarak JSON'a çevirir.
-        response = requests.post(API_URL, json=payload)
+        response = requests.post(API_URL, json=payload, headers=headers)
         
         # 4. Yanıtın başarılı olup olmadığını kontrol et
         if response.status_code == 200:
