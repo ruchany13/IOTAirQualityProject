@@ -20,6 +20,8 @@ spec:
           image: registry.ruchan.dev/iot/prod/sensor-data-sender:250617-317c811
           envFrom:
             - secretRef:
+                name: postgres-secret
+            - secretRef:
                 name: api-secret
             - configMapRef:
                 name: api-cm
