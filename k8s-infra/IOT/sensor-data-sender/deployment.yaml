@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: sensor-data-sender
-          image: registry.ruchan.dev/iot/prod/sensor-data-sender:250617-6e8ed0e
+          image: registry.ruchan.dev/iot/prod/sensor-data-sender:250617-69e4ce4
           envFrom:
             - secretRef:
                 name: postgres-secret
